@@ -48,8 +48,8 @@ CREATE TABLE `class` (
   `Subject` varchar(50) NOT NULL,
   `Code` int(11) NOT NULL,
   `StartDate` date NOT NULL,
-  'classDay' int NOT NULL,
-  'classTime' time NOT NULL
+  `classDay` int(11) NOT NULL,
+  `classTime` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -87,7 +87,6 @@ CREATE TABLE `lesson` (
   `LessonDate` date NOT NULL,
   `ClassID` int(11) NOT NULL,
   `VolunteerID` int(11) NOT NULL
-  --`VolunteerAttended` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -213,7 +212,7 @@ ALTER TABLE `class`
 --
 ALTER TABLE `help`
   ADD PRIMARY KEY (`Kind`,`DateRecieved`),
-  ADD KEY `DataRecieved` (`DataRecieved`);
+  ADD KEY `DateRecieved` (`DateRecieved`);
 
 --
 -- Indexes for table `helpreceived`
@@ -279,7 +278,7 @@ ALTER TABLE `timevolunteer`
 -- Indexes for table `volunteer`
 --
 ALTER TABLE `volunteer`
-  ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`SSN`);
 
 
 --
@@ -296,7 +295,7 @@ ALTER TABLE `class`
 -- AUTO_INCREMENT for table `volunteer`
 --
 ALTER TABLE `volunteer`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `SSN` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 
 --
@@ -309,7 +308,7 @@ ALTER TABLE `child`
 -- Constraints for table `class`
 --
 ALTER TABLE `class`
-  ADD CONSTRAINT `CLASS_fk0` FOREIGN KEY (`Teacher`) REFERENCES `volunteer` (`ID`);
+  ADD CONSTRAINT `CLASS_fk0` FOREIGN KEY (`Teacher`) REFERENCES `volunteer` (`SSN`);
 
 --
 -- Constraints for table `helpreceived`
@@ -324,7 +323,7 @@ ALTER TABLE `helpreceived`
 --
 ALTER TABLE `lesson`
   ADD CONSTRAINT `LESSON_fk0` FOREIGN KEY (`ClassID`) REFERENCES `class` (`Code`),
-  ADD CONSTRAINT `LESSON_fk1` FOREIGN KEY (`VolunteerID`) REFERENCES `volunteer` (`ID`);
+  ADD CONSTRAINT `LESSON_fk1` FOREIGN KEY (`VolunteerID`) REFERENCES `volunteer` (`SSN`);
 
 --
 -- Constraints for table `studentclass`
@@ -359,7 +358,7 @@ ALTER TABLE `timestudent`
 -- Constraints for table `timevolunteer`
 --
 ALTER TABLE `timevolunteer`
-  ADD CONSTRAINT `TIMEVOLUNTEER_fk0` FOREIGN KEY (`VolunteerID`) REFERENCES `volunteer` (`ID`);
+  ADD CONSTRAINT `TIMEVOLUNTEER_fk0` FOREIGN KEY (`VolunteerID`) REFERENCES `volunteer` (`SSN`);
 
 COMMIT;
 
