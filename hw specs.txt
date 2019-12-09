@@ -1,0 +1,4 @@
+OS : 64-bit windows 10
+CPU: core i7-7700HQ @2.80 GHZ
+RAM: 16 GB
+Hard disk: 1 TB Hdd
