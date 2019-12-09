@@ -47,7 +47,9 @@ CREATE TABLE `class` (
   `Level` int(11) NOT NULL,
   `Subject` varchar(50) NOT NULL,
   `Code` int(11) NOT NULL,
-  `StartDate` date NOT NULL
+  `StartDate` date NOT NULL,
+  'classDay' int NOT NULL,
+  'classTime' time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -59,7 +61,7 @@ CREATE TABLE `class` (
 CREATE TABLE `help` (
   `Kind` varchar(50) NOT NULL,
   `NumberOfPieces` int(11) NOT NULL,
-  `ADate` date NOT NULL,
+  `DateRecieved` date NOT NULL,
   `Recieved` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -82,10 +84,10 @@ CREATE TABLE `helpreceived` (
 --
 
 CREATE TABLE `lesson` (
-  `ADate` date NOT NULL,
+  `LessonDate` date NOT NULL,
   `ClassID` int(11) NOT NULL,
-  `VolunteerID` int(11) NOT NULL,
-  `VolunteerAttended` tinyint(4) NOT NULL
+  `VolunteerID` int(11) NOT NULL
+  --`VolunteerAttended` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -103,7 +105,7 @@ CREATE TABLE `student` (
   `Job` varchar(50) DEFAULT NULL,
   `Age` int(11) DEFAULT NULL,
   `Gender` varchar(50) NOT NULL,
-  `TelephoneNumber` int(11) NOT NULL,
+  `Mobile` int(11) NOT NULL,
   `CurrentLevel` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -147,15 +149,6 @@ CREATE TABLE `studentlevels` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
---
--- Table structure for table `times`
---
-
-CREATE TABLE `times` (
-  `Day` int(11) NOT NULL,
-  `Time` time NOT NULL,
-  `Code` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -191,13 +184,12 @@ CREATE TABLE `timevolunteer` (
 --
 
 CREATE TABLE `volunteer` (
-  `ID` int(11) NOT NULL,
+  `SSN` int(11) NOT NULL,
   `FirstName` varchar(50) NOT NULL,
   `LastName` varchar(50) NOT NULL,
   `Age` int(11) DEFAULT NULL,
   `Job` varchar(50) DEFAULT NULL,
-  `RegulatoryStatus` varchar(50) NOT NULL,
-  `TelephoneNumber` int(11) DEFAULT NULL,
+  `Mobile` int(11) DEFAULT NULL,
   `Gender` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -220,8 +212,8 @@ ALTER TABLE `class`
 -- Indexes for table `help`
 --
 ALTER TABLE `help`
-  ADD PRIMARY KEY (`Kind`,`ADate`),
-  ADD KEY `ADate` (`ADate`);
+  ADD PRIMARY KEY (`Kind`,`DateRecieved`),
+  ADD KEY `DataRecieved` (`DataRecieved`);
 
 --
 -- Indexes for table `helpreceived`
@@ -235,7 +227,7 @@ ALTER TABLE `helpreceived`
 -- Indexes for table `lesson`
 --
 ALTER TABLE `lesson`
-  ADD PRIMARY KEY (`ADate`,`ClassID`),
+  ADD PRIMARY KEY (`LessonDate`,`ClassID`),
   ADD KEY `LESSON_fk0` (`ClassID`),
   ADD KEY `LESSON_fk1` (`VolunteerID`);
 
@@ -269,12 +261,7 @@ ALTER TABLE `studentlevels`
   ADD PRIMARY KEY (`StudentID`,`StartDate`,`EndDate`,`Level`,`Grade`),
   ADD KEY `Level` (`Level`);
 
---
--- Indexes for table `times`
---
-ALTER TABLE `times`
-  ADD PRIMARY KEY (`Day`,`Time`,`Code`),
-  ADD KEY `TIMES_fk0` (`Code`);
+
 
 --
 -- Indexes for table `timestudent`
@@ -330,7 +317,7 @@ ALTER TABLE `class`
 ALTER TABLE `helpreceived`
   ADD CONSTRAINT `HELPRECEIVED_fk0` FOREIGN KEY (`StudntID`) REFERENCES `student` (`SSN`),
   ADD CONSTRAINT `HELPRECEIVED_fk1` FOREIGN KEY (`Helpkind`) REFERENCES `help` (`Kind`),
-  ADD CONSTRAINT `HELPRECEIVED_fk2` FOREIGN KEY (`HelpDate`) REFERENCES `help` (`ADate`);
+  ADD CONSTRAINT `HELPRECEIVED_fk2` FOREIGN KEY (`HelpDate`) REFERENCES `help` (`DateRecieved`);
 
 --
 -- Constraints for table `lesson`
@@ -351,7 +338,7 @@ ALTER TABLE `studentclass`
 --
 ALTER TABLE `studentlesson`
   ADD CONSTRAINT `STUDENTLESSON_fk0` FOREIGN KEY (`StudentID`) REFERENCES `student` (`SSN`),
-  ADD CONSTRAINT `STUDENTLESSON_fk1` FOREIGN KEY (`LessonDate`) REFERENCES `lesson` (`ADate`),
+  ADD CONSTRAINT `STUDENTLESSON_fk1` FOREIGN KEY (`LessonDate`) REFERENCES `lesson` (`LessonDate`),
   ADD CONSTRAINT `STUDENTLESSON_fk2` FOREIGN KEY (`ClassID`) REFERENCES `lesson` (`ClassID`);
 
 --
@@ -360,11 +347,7 @@ ALTER TABLE `studentlesson`
 ALTER TABLE `studentlevels`
   ADD CONSTRAINT `StudentLevels_fk0` FOREIGN KEY (`StudentID`) REFERENCES `student` (`SSN`);
 
---
--- Constraints for table `times`
---
-ALTER TABLE `times`
-  ADD CONSTRAINT `TIMES_fk0` FOREIGN KEY (`Code`) REFERENCES `class` (`Code`);
+
 
 --
 -- Constraints for table `timestudent`
