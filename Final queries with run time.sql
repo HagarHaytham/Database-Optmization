@@ -19,6 +19,21 @@ order by student.FirstName;
 
 
 --       before      stored procedures      index tuning
---q1     0.0110       0.4951
---q2     0.0073       0.0055
---q3     0.7388       exceeded 300 s
+--q1     0.0110       0.4951                  0.0023    
+--q2     0.0073       0.0055                  0.0031
+--q3     0.7388       exceeded 300 s          0.7121  
+
+
+-- q1:
+-- index added helpreceived.StudntID ->0.0097 
+-- then index added on help.kind -> time 0.0023
+
+-- q2:
+--class.code 0.0062 
+--studentlesson.StudentID  0.0031
+-- studentlesson.Attended  // Not nessesary ?
+
+--q3
+--class.code  0.7315 
+--studentclass.StudentID 0.7168 
+-- student.FirstName 0.7121  
