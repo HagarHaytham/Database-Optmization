@@ -12,9 +12,13 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE  `get_class_attendance_count`()
 BEGIN
+-- SELECT student.SSN,COUNT(*) from studentlesson,class,student,lesson
+-- WHERE (studentlesson.Attended = 1 and(class.Code= 1 or class.Code =2) and student.SSN<100 and studentlesson.StudentID = student.SSN
+--       and lesson.ClassID = class.Code)
+-- GROUP BY student.SSN;
 SELECT student.SSN,COUNT(*) from studentlesson,class,student,lesson
 WHERE (studentlesson.Attended = 1 and(class.Code= 1 or class.Code =2) and student.SSN<100 and studentlesson.StudentID = student.SSN
-      and lesson.ClassID = class.Code)
+      and lesson.ClassID = class.Code and lesson.ClassID = studentlesson.ClassID and lesson.LessonDate = studentlesson.LessonDate)
 GROUP BY student.SSN;
 END$$
 DELIMITER ;

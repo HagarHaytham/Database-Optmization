@@ -13,7 +13,7 @@ WHERE (studentlesson.Attended = 1 and(class.Code= 1 or class.Code =2) and studen
 GROUP BY student.SSN
 SELECT student.SSN,COUNT(*) from studentlesson,class,student,lesson
 WHERE (studentlesson.Attended = 1 and(class.Code= 1 or class.Code =2) and student.SSN<100 and studentlesson.StudentID = student.SSN
-      and lesson.ClassID = class.Code)
+    and lesson.ClassID = class.Code)
 GROUP BY student.SSN
 
 
