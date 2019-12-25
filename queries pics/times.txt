@@ -1,0 +1,4 @@
+--       before      stored procedures      index tuning      query_optimization
+--q1     0.0110       0.4923                  0.0023            0.0099
+--q2     0.0108       0.0010                  0.0031            0.0048
+--q3     0.7388       exceeded 300 s          0.7121            0.7350 
